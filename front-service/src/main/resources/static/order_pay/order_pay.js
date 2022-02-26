@@ -1,4 +1,4 @@
-angular.module('market-front').controller('orderPayController', function ($scope, $http, $location, $localStorage, $routeParams) {
+angular.module('market-front').controller('orderPayController', function ($scope, $http, $location, $window, $localStorage, $routeParams) {
 
     $scope.loadOrder = function () {
         $http({
@@ -30,12 +30,16 @@ angular.module('market-front').controller('orderPayController', function ($scope
                         'content-type': 'application/json'
                     }
                 }).then(function(response) {
-                    response.text().then(msg => alert(msg));
+
+                    var url = "http://" + $window.location.host + "/front/#!/orders";
+                    $window.location.href = url;
                 });
             },
 
             onCancel: function (data) {
                 console.log("Order canceled: " + data);
+                var url = "http://" + $window.location.host + "/front/#!/orders";
+                $window.location.href = url;
             },
 
             onError: function (err) {

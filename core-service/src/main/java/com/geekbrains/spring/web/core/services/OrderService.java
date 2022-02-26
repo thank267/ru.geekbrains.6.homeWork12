@@ -5,6 +5,7 @@ import com.geekbrains.spring.web.api.exceptions.ResourceNotFoundException;
 import com.geekbrains.spring.web.api.core.OrderDetailsDto;
 import com.geekbrains.spring.web.core.entities.Order;
 import com.geekbrains.spring.web.core.entities.OrderItem;
+import com.geekbrains.spring.web.core.entities.Status;
 import com.geekbrains.spring.web.core.integrations.CartServiceIntegration;
 import com.geekbrains.spring.web.core.repositories.OrdersRepository;
 import lombok.RequiredArgsConstructor;
@@ -51,5 +52,10 @@ public class OrderService {
 
     public Optional<Order> findById(Long id) {
         return ordersRepository.findById(id);
+    }
+
+    @Transactional
+    public void updateStatusById(Status status, Long id) {
+        ordersRepository.updateStatus(status,id);
     }
 }
