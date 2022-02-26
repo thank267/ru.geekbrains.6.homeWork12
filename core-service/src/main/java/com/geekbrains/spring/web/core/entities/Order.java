@@ -25,6 +25,9 @@ public class Order {
     @Column(name = "username")
     private String username;
 
+    @Column(name = "status")
+    private Status status;
+
     @OneToMany(mappedBy = "order", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<OrderItem> items;
 
@@ -33,6 +36,9 @@ public class Order {
 
     @Column(name = "address")
     private String address;
+
+    @Column(name = "city")
+    private String city;
 
     @Column(name = "phone")
     private String phone;

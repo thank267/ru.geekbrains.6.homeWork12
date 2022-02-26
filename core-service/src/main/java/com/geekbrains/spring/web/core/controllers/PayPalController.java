@@ -1,5 +1,6 @@
 package com.geekbrains.spring.web.core.controllers;
 
+import com.geekbrains.spring.web.core.entities.Status;
 import com.geekbrains.spring.web.core.services.OrderService;
 import com.geekbrains.spring.web.core.services.PayPalService;
 import com.paypal.core.PayPalHttpClient;
@@ -45,12 +46,14 @@ public class PayPalController {
         Order payPalOrder = response.result();
         if ("COMPLETED".equals(payPalOrder.status())) {
             long orderId = Long.parseLong(payPalOrder.purchaseUnits().get(0).referenceId());
-            // Optional<com.geekbrains.spring.web.core.entities.Order> orderOptional = orderService.findById(orderId);
-
-
-
+            orderService.updateStatusById(Status.PAYED,orderId);
             return new ResponseEntity<>("Order completed!", HttpStatus.valueOf(response.statusCode()));
         }
-        return new ResponseEntity<>(payPalOrder, HttpStatus.valueOf(response.statusCode()));
+        else {
+            long orderId = Long.parseLong(payPalOrder.purchaseUnits().get(0).referenceId());
+            orderService.updateStatusById(Status.CANCELED,orderId);
+            return new ResponseEntity<>("Order canceled!", HttpStatus.valueOf(response.statusCode()));
+        }
+        //return new ResponseEntity<>(payPalOrder, HttpStatus.valueOf(response.statusCode()));
     }
 }
